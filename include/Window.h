@@ -7,13 +7,13 @@ class Window {
   Window(){
   }
 
-  bool Init(int width, int height, const char* title){
+  inline bool Init(int width, int height, const char* title){
     InitWindow(width, height, title);
     SetTargetFPS(144);
     return true;
   }
 
-  bool ShouldClose(){
+  inline bool ShouldClose(){
     return !WindowShouldClose();
   }
 

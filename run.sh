@@ -3,6 +3,6 @@
 #command="Create"
 #arg="$2"
 
-cd out/bin
+cd out/Debug/bin
 
 ./Casino

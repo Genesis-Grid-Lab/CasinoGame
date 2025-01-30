@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Window.h"
+#include "Scene.h"
+#include "MainMenuScene.h"
 
 class Application {
  public:
@@ -11,18 +13,21 @@ class Application {
   }
 
   void Start(){
-    
+    currentScene = CreateRef<MainMenu>();
+    currentScene->Start();
   }
 
   void Update(){
-    
+    auto nextScene = currentScene->Update();
+    if(nextScene){
+        nextScene->Start();
+        currentScene = nextScene;
+    }
   }
 
   void Render(){
     BeginDrawing();
-    ClearBackground(DARKGREEN);
-    
-
+    currentScene->Draw();
     EndDrawing();
   }
 
@@ -40,5 +45,5 @@ class Application {
 
  private:
   Window mWindow;
-
+  Ref<Scene> currentScene;
 };
