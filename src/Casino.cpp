@@ -1,5 +1,7 @@
 #include "Casino.h"
+#include "MenuScene.h"
 #include "Hand.h"
+#include "raygui.h"
 #include "raylib.h"
 
 Casino::Casino(){
@@ -55,42 +57,48 @@ void Casino::DrawCards(Ref<Hand>& player, Ref<Hand>& table){
 }
 
 void Casino::Start(){
-    Vector2 pos = { 100, 100};
-    mDeck = CreateRef<Deck>(pos);
-    mHand = CreateRef<Hand>();
-    Table = CreateRef<Hand>(16);
-    AddObject(mHand);
-    AddObject(Table);
-    pos = { ((float)GetScreenWidth() / 2) - 70 , (float)GetScreenHeight() - 45};
-    mHand->SetPosition(pos);
+  mMenuClicked = false;
+  Vector2 pos = { 100, 100};
+  mDeck = CreateRef<Deck>(pos);
+  mHand = CreateRef<Hand>();
+  Table = CreateRef<Hand>(16);
+  AddObject(mHand);
+  AddObject(Table);
+  pos = { ((float)GetScreenWidth() / 2) - 70 , (float)GetScreenHeight() - 45};
+  mHand->SetPosition(pos);
 
-    pos = { ((float)GetScreenWidth() / 2) - 70 , ((float)GetScreenHeight() / 2) - 90};
-    Table->SetPosition(pos);
-    FromDeck(mDeck);
-    Shuffle();
+  pos = { ((float)GetScreenWidth() / 2) - 70 , ((float)GetScreenHeight() / 2) - 90};
+  Table->SetPosition(pos);
+  FromDeck(mDeck);
+  Shuffle();
 
-    for(auto& place : mHand->GetPlaces()){
-        AddObject(place);
-    }
-    for(auto& place : Table->GetPlaces()){
-        AddObject(place);
-    }
-    for(auto& card : Cards){
-        AddObject(card);
-    }
-    AddObject(mDeck);
+  for(auto& place : mHand->GetPlaces()){
+    AddObject(place);
+  }
+  for(auto& place : Table->GetPlaces()){
+    AddObject(place);
+  }
+  for(auto& card : Cards){
+    AddObject(card);
+  }
+  AddObject(mDeck);
 
-    pos = mHand->GetPlaces()[0]->GetPosition();
-    Cards.front()->SetPosition(pos);
+  pos = mHand->GetPlaces()[0]->GetPosition();
+  Cards.front()->SetPosition(pos);
 }
 
 Ref<Scene> Casino::Update(){
     Scene::Update();
     DrawCards(mHand, Table);
+
+    if(mMenuClicked){
+      return ResourcesManager<Menu>::loadScene("Menu");
+    }
     return nullptr;
 }
 
 void Casino::Draw(){
     Scene::Draw();
     ClearBackground(DARKGREEN);
+    if (GuiButton(Rectangle{(float)(GetScreenWidth() - 30),30,30,30}, GuiIconText(ICON_FILE_SAVE_CLASSIC, ""))) { mMenuClicked = true; }
 }

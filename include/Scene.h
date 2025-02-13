@@ -8,7 +8,7 @@ class Scene {
 public:
     virtual ~Scene() = default;
 
-    virtual void Start() = 0;
+  virtual void Start() {}
 
     virtual Ref<Scene> Update();
 

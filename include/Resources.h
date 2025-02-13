@@ -2,6 +2,7 @@
 
 #include "Scene.h"
 #include "Object.h"
+#include <memory>
 
 template<class T>
 class ResourcesManager {
@@ -52,6 +53,27 @@ public:
         return resource;
     }
 
+  //load a scene
+  static Ref<T> loadScene(const std::string &name){
+    auto &resourcesManager = instance();
+    Ref<T> resource;
+
+    // Check if the resources already loaded
+    auto resIter = resourcesManager.SceneResources.find(name);
+    if(resIter != resourcesManager.SceneResources.end()){
+      printf("Debug load scene\n"); 
+      resource = std::static_pointer_cast<T>(resIter->second);
+    }
+
+    if(!resource){
+      printf("Debug create scene\n");
+      // make a scene
+      resource = CreateRef<T>();
+      resourcesManager.SceneResources[name] = std::static_pointer_cast<Scene>(resource);
+    }
+    return resource;
+  }
+
     //Gets the global resources manager instance
     static auto& instance(){
         static ResourcesManager resourceManager;
@@ -65,6 +87,7 @@ private:
 
     //The map of resources that have been loaded
     std::unordered_map<std::string, std::weak_ptr<T>> resources;
+  std::map<std::string, Ref<Scene>> SceneResources;
 };
 
 // Predefined resource managers.
@@ -77,3 +100,6 @@ typedef ResourcesManager<Sound> SoundManager;
 
 // Manages loading of music.
 typedef ResourcesManager<Music> MusicManager;
+
+// Manages loading of Scene
+typedef ResourcesManager<Scene> SceneManager;

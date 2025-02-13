@@ -3,6 +3,8 @@
 #include "Window.h"
 #include "Scene.h"
 #include "MainMenuScene.h"
+#include "Resources.h"
+#include "Casino.h"
 
 class Application {
  public:
@@ -13,7 +15,8 @@ class Application {
   }
 
   void Start(){
-    currentScene = CreateRef<MainMenu>();
+    ResourcesManager<Casino>::loadScene("Casino");
+    currentScene = ResourcesManager<MainMenu>::loadScene("MainMenu");
     currentScene->Start();
   }
 

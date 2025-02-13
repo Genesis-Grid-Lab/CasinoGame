@@ -1,8 +1,7 @@
-#include "MainMenuScene.h"
-#include "Casino.h"
+#include "MenuScene.h"
 
-#define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
+#include "Casino.h"
 
 #define TITLE_FONT_SIZE 160
 #define TITLE_FONT_SPACING 10.0f
@@ -12,34 +11,30 @@
 #define BUTTON_HEIGHT 70
 #define BUTTON_SPACING (BUTTON_HEIGHT + 10)
 
-MainMenu::MainMenu(){
+Menu::Menu() { Clicked = false; printf("Menu start\n");}
+
+Menu::~Menu() {}
+
+void Menu::Start() {}
+
+Ref<Scene> Menu::Update(){
+  Scene::Update();
+
+  if(Clicked){
+    printf("Debug resume\n");
     Clicked = false;
+    return ResourcesManager<Casino>::loadScene("Casino");
+  }
+  return nullptr;
 }
 
-MainMenu::~MainMenu(){
-
-}
-
-void MainMenu::Start(){
-
-}
-
-Ref<Scene> MainMenu::Update(){
-    Scene::Update();
-    if(Clicked){
-      return ResourcesManager<Casino>::loadScene("Casino");
-    }
-    else
-        return nullptr;
-}
-
-void MainMenu::Draw(){
-    Scene::Draw();
-
-    int sceneWidth = GetScreenWidth();
+void Menu::Draw(){
+  Scene::Draw();
+  ClearBackground(BLACK);
+  int sceneWidth = GetScreenWidth();
 	int sceneHeight = GetScreenHeight();
 
-	const char *title = "Casino";
+	const char *title = "Menu";
 	Font titleFont = GetFontDefault();
 	Vector2 titleDim = MeasureTextEx(titleFont, title, TITLE_FONT_SIZE, TITLE_FONT_SPACING);
 
@@ -56,11 +51,11 @@ void MainMenu::Draw(){
 	GuiSetStyle(BUTTON, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
 	GuiSetStyle(DEFAULT, TEXT_SIZE, MENU_FONT_SIZE);
       
-	if (GuiButton(Rectangle{ currX, currY, BUTTON_WIDTH, BUTTON_HEIGHT }, "Start Game")) {
+	if (GuiButton(Rectangle{ currX, currY, BUTTON_WIDTH, BUTTON_HEIGHT }, "Resume")) {
 		Clicked = true;
 	}
 	currY += BUTTON_SPACING;
 	if (GuiButton(Rectangle{ currX, currY, BUTTON_WIDTH, BUTTON_HEIGHT }, "Quit")) {
-
+	  
 	}
 }
