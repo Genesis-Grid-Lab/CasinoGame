@@ -2,6 +2,7 @@
 
 #include "Object.h"
 #include "Resources.h"
+#include "raymath.h"
 
 enum class CardSuit
 {
@@ -13,15 +14,25 @@ enum class CardSuit
 
 class Card : public Object{
 public:
-    Card(int value,CardSuit suit, std::string tex): Value(value), Suit(suit){
-        Tex = TextureManager::loadTexture(tex);
+    Card(){        
     }
    ~Card(){
    }
 
+  void SetUp(int value,CardSuit suit, std::string tex){
+    Tex = TextureManager::loadTexture(tex);
+    Value = value;
+    Suit = suit;
+  }
+
    void Draw() override{
-       DrawTextureV(*Tex, Position, WHITE);
-       // DrawTextureRec(*Tex, GetScreenRect(), Position, WHITE);
+
+     // Rectangle source = {0,0, (float)Tex->width, (float)Tex->height};
+     // Rectangle dst = {Position.x, Position.y, CARD_WIDTH, CARD_HEIGHT};
+     // Vector2 center = {(float)Tex->width / 2, (float)Tex->height / 2};
+     //   // DrawTextureV(*Tex, Position, WHITE);
+       DrawTextureRec(*Tex, GetScreenRect(), Position, WHITE);
+     //   DrawTexturePro(*Tex, source, dst, center, 0, WHITE);
    }
 
    int GetValue(){ return Value;}
@@ -34,25 +45,29 @@ private:
 
 class Deck : public Object{
 public:
-    Deck(Vector2& pos){
-        Position = pos;
-        std::string resourcePath = "Resources/Cards/";
-        std::string name, filepath;
-        Tex = TextureManager::loadTexture("Resources/Cards/back1.png");
+  Deck(){
+    Position = {100, 100};
+    std::string resourcePath = "Resources/individuals/";
+    std::string name, filepath;
+    Tex = TextureManager::loadTexture("Resources/individuals/card_back/card_back.png");
 
         for(int i = 1; i <= 13; i++){
-            name = "c" + std::to_string(i) + ".png";
+            name = "club/" + std::to_string(i) + "_club.png";
             filepath = resourcePath + name;
-            Cards.emplace_back(CreateRef<Card>(i, CardSuit::Club, filepath));
-            name = "d" + std::to_string(i) + ".png";
+            Cards.emplace_back(ResourcesManager<Card>::CreateObject(RandomU64()));
+	    Cards.front()->SetUp(i, CardSuit::Club, filepath);
+            name = "diamond/" + std::to_string(i) + "_diamond.png";
             filepath = resourcePath + name;
-            Cards.emplace_back(CreateRef<Card>(i, CardSuit::Diamond, filepath));
-            name = "h" + std::to_string(i) + ".png";
+            Cards.emplace_back(ResourcesManager<Card>::CreateObject(RandomU64()));
+	    Cards.front()->SetUp(i, CardSuit::Diamond, filepath);
+            name = "heart/" + std::to_string(i) + "_heart.png";
             filepath = resourcePath + name;
-            Cards.emplace_back(CreateRef<Card>(i, CardSuit::Heart, filepath));
-            name = "s" + std::to_string(i) + ".png";
+            Cards.emplace_back(ResourcesManager<Card>::CreateObject(RandomU64()));
+	    Cards.front()->SetUp(i, CardSuit::Heart, filepath);
+            name = "spade/" + std::to_string(i) + "_spade.png";
             filepath = resourcePath + name;
-            Cards.emplace_back(CreateRef<Card>(i, CardSuit::Spades, filepath));
+            Cards.emplace_back(ResourcesManager<Card>::CreateObject(RandomU64()));
+	    Cards.front()->SetUp(i, CardSuit::Spades, filepath);
         }
 
         for(auto& card : Cards){
@@ -61,7 +76,11 @@ public:
     }
 
     void Draw() override {
-        DrawTextureV(*Tex,Position, WHITE);
+      Rectangle source = {0,0, (float)Tex->width, (float)Tex->height};
+      Rectangle dst = {Position.x, Position.y, CARD_WIDTH, CARD_HEIGHT};
+      Vector2 center = {(float)Tex->width / 2, (float)Tex->height / 2};
+      // DrawTextureV(*Tex,Position, WHITE);
+      DrawTexturePro(*Tex, source, dst, center, 90, WHITE);
     }
 
     std::vector<Ref<Card>>& GetCards() { return Cards;}

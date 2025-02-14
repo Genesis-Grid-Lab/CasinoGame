@@ -3,13 +3,13 @@
 
 void Scene::Draw(){
     for(auto& object : Objects){
-        object->Draw();
+        // object->Draw();
     }
 }
 
 Ref<Scene> Scene::Update(){
     for(auto& object : Objects){
-        object->Update();
+        // object->Update();
     }
     return nullptr;
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Object.h"
 #include "Window.h"
 #include "Scene.h"
 #include "MainMenuScene.h"
@@ -21,6 +22,10 @@ class Application {
   }
 
   void Update(){
+    // printf("%i\n", (int)ObjectManager::GetObjects().size());
+    for(auto const& [id, object] : ResourcesManager<Card>::GetObjects()){
+      object->Update();
+    }
     auto nextScene = currentScene->Update();
     if(nextScene){
         nextScene->Start();
@@ -30,6 +35,13 @@ class Application {
 
   void Render(){
     BeginDrawing();
+    for(auto& object : ResourcesManager<Card>::GetObjects()){
+      // object.second->Draw();
+    }
+
+    for(auto it = ResourcesManager<Card>::GetObjects().begin(); it != ResourcesManager<Card>::GetObjects().end(); it++){
+      // it->second->Draw();      
+    }
     currentScene->Draw();
     EndDrawing();
   }

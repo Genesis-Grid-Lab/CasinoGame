@@ -22,5 +22,8 @@ private:
     Ref<Hand> mHand;
     Ref<Hand> Table;
     Ref<Deck> mDeck;
+  // Ref<Object> mHand;
+  // Ref<Object> Table;
+  // Ref<Object> mDeck;
   bool mMenuClicked;
 };

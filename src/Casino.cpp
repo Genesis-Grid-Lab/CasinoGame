@@ -14,8 +14,9 @@ Casino::~Casino(){
 
 void Casino::FromDeck(Ref<Deck>& deck){
     Cards.clear();
+      printf("fromDeck\n");
     for(auto& card : deck->GetCards()){
-        Cards.push_back(card);
+      Cards.push_back(card);
     }
 }
 void Casino::Swap(size_t a, size_t b){
@@ -46,45 +47,35 @@ void Casino::DrawCards(Ref<Hand>& player, Ref<Hand>& table){
     pos = player->GetPlaces()[3]->GetPosition();
     Cards[3]->SetPosition(pos);
 
-    pos = table->GetPlaces()[0]->GetPosition();
-    Cards[4]->SetPosition(pos);
-    pos = table->GetPlaces()[1]->GetPosition();
-    Cards[5]->SetPosition(pos);
-    pos = table->GetPlaces()[2]->GetPosition();
-    Cards[6]->SetPosition(pos);
-    pos = table->GetPlaces()[3]->GetPosition();
-    Cards[7]->SetPosition(pos);
+    // pos = table->GetPlaces()[0]->GetPosition();
+    // Cards[4]->SetPosition(pos);
+    // pos = table->GetPlaces()[1]->GetPosition();
+    // Cards[5]->SetPosition(pos);
+    // pos = table->GetPlaces()[2]->GetPosition();
+    // Cards[6]->SetPosition(pos);
+    // pos = table->GetPlaces()[3]->GetPosition();
+    // Cards[7]->SetPosition(pos);
 }
 
 void Casino::Start(){
+  printf("Casino start\n");
   mMenuClicked = false;
   Vector2 pos = { 100, 100};
-  mDeck = CreateRef<Deck>(pos);
-  mHand = CreateRef<Hand>();
-  Table = CreateRef<Hand>(16);
-  AddObject(mHand);
-  AddObject(Table);
+  mDeck = ResourcesManager<Deck>::CreateObject(RandomU64());
+  mHand = ResourcesManager<Hand>::CreateObject(RandomU64());
+  Table = ResourcesManager<Hand>::CreateObject(RandomU64());
   pos = { ((float)GetScreenWidth() / 2) - 70 , (float)GetScreenHeight() - 45};
   mHand->SetPosition(pos);
 
   pos = { ((float)GetScreenWidth() / 2) - 70 , ((float)GetScreenHeight() / 2) - 90};
   Table->SetPosition(pos);
   FromDeck(mDeck);
+  printf("done create object\n");
   Shuffle();
-
-  for(auto& place : mHand->GetPlaces()){
-    AddObject(place);
-  }
-  for(auto& place : Table->GetPlaces()){
-    AddObject(place);
-  }
-  for(auto& card : Cards){
-    AddObject(card);
-  }
-  AddObject(mDeck);
 
   pos = mHand->GetPlaces()[0]->GetPosition();
   Cards.front()->SetPosition(pos);
+  printf("Casino start end\n");
 }
 
 Ref<Scene> Casino::Update(){
