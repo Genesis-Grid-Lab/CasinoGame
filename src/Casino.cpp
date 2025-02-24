@@ -61,9 +61,9 @@ void Casino::Start(){
   printf("Casino start\n");
   mMenuClicked = false;
   Vector2 pos = { 100, 100};
-  mDeck = ResourcesManager<Deck>::CreateObject(RandomU64());
-  mHand = ResourcesManager<Hand>::CreateObject(RandomU64());
-  Table = ResourcesManager<Hand>::CreateObject(RandomU64());
+  mDeck = ResourcesManager::CreateObject<Deck>(RandomU64());
+  mHand = ResourcesManager::CreateObject<Hand>(RandomU64());
+  Table = ResourcesManager::CreateObject<Hand>(RandomU64());
   pos = { ((float)GetScreenWidth() / 2) - 70 , (float)GetScreenHeight() - 45};
   mHand->SetPosition(pos);
 
@@ -83,7 +83,7 @@ Ref<Scene> Casino::Update(){
     DrawCards(mHand, Table);
 
     if(mMenuClicked){
-      return ResourcesManager<Menu>::loadScene("Menu");
+      return ResourcesManager::loadScene<Menu>("Menu");
     }
     return nullptr;
 }

@@ -16,14 +16,14 @@ class Application {
   }
 
   void Start(){
-    ResourcesManager<Casino>::loadScene("Casino");
-    currentScene = ResourcesManager<MainMenu>::loadScene("MainMenu");
+    ResourcesManager::loadScene<Casino>("Casino");
+    currentScene = ResourcesManager::loadScene<MainMenu>("MainMenu");
     currentScene->Start();
   }
 
   void Update(){
     // printf("%i\n", (int)ObjectManager::GetObjects().size());
-    for(auto const& [id, object] : ResourcesManager<Card>::GetObjects()){
+    for(auto const& [id, object] : ResourcesManager::GetObjects()){
       object->Update();
     }
     auto nextScene = currentScene->Update();
@@ -35,11 +35,11 @@ class Application {
 
   void Render(){
     BeginDrawing();
-    for(auto& object : ResourcesManager<Card>::GetObjects()){
-      // object.second->Draw();
+    for(auto& object : ResourcesManager::GetObjects()){
+      object.second->Draw();
     }
 
-    for(auto it = ResourcesManager<Card>::GetObjects().begin(); it != ResourcesManager<Card>::GetObjects().end(); it++){
+    for(auto it = ResourcesManager::GetObjects().begin(); it != ResourcesManager::GetObjects().end(); it++){
       // it->second->Draw();      
     }
     currentScene->Draw();

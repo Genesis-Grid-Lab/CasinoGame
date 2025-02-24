@@ -24,11 +24,11 @@ class Object{
 	return CheckCollisionPointRec(pos, GetScreenRect());
   }
 
-  inline Ref<Texture>& GetTexture() { return Tex;}
+  inline Texture& GetTexture() { return Tex;}
 
   inline uint64_t const GetID() { return id;}
  protected:
   Vector2 Position = {0};
-  Ref<Texture> Tex = nullptr;
+  Texture Tex;
   uint64_t id = RandomU64();
 };

@@ -26,12 +26,12 @@ public:
   }
 
    void Draw() override{
-
      // Rectangle source = {0,0, (float)Tex->width, (float)Tex->height};
      // Rectangle dst = {Position.x, Position.y, CARD_WIDTH, CARD_HEIGHT};
      // Vector2 center = {(float)Tex->width / 2, (float)Tex->height / 2};
      //   // DrawTextureV(*Tex, Position, WHITE);
-       DrawTextureRec(*Tex, GetScreenRect(), Position, WHITE);
+      //  DrawTextureRec(Tex, GetScreenRect(), Position, WHITE);
+      DrawRectangleV(Position, Vector2{CARD_WIDTH,CARD_HEIGHT}, RED);
      //   DrawTexturePro(*Tex, source, dst, center, 0, WHITE);
    }
 
@@ -54,19 +54,19 @@ public:
         for(int i = 1; i <= 13; i++){
             name = "club/" + std::to_string(i) + "_club.png";
             filepath = resourcePath + name;
-            Cards.emplace_back(ResourcesManager<Card>::CreateObject(RandomU64()));
+            Cards.emplace_back(ResourcesManager::CreateObject<Card>(RandomU64()));
 	    Cards.front()->SetUp(i, CardSuit::Club, filepath);
             name = "diamond/" + std::to_string(i) + "_diamond.png";
             filepath = resourcePath + name;
-            Cards.emplace_back(ResourcesManager<Card>::CreateObject(RandomU64()));
+            Cards.emplace_back(ResourcesManager::CreateObject<Card>(RandomU64()));
 	    Cards.front()->SetUp(i, CardSuit::Diamond, filepath);
             name = "heart/" + std::to_string(i) + "_heart.png";
             filepath = resourcePath + name;
-            Cards.emplace_back(ResourcesManager<Card>::CreateObject(RandomU64()));
+            Cards.emplace_back(ResourcesManager::CreateObject<Card>(RandomU64()));
 	    Cards.front()->SetUp(i, CardSuit::Heart, filepath);
             name = "spade/" + std::to_string(i) + "_spade.png";
             filepath = resourcePath + name;
-            Cards.emplace_back(ResourcesManager<Card>::CreateObject(RandomU64()));
+            Cards.emplace_back(ResourcesManager::CreateObject<Card>(RandomU64()));
 	    Cards.front()->SetUp(i, CardSuit::Spades, filepath);
         }
 
@@ -76,11 +76,11 @@ public:
     }
 
     void Draw() override {
-      Rectangle source = {0,0, (float)Tex->width, (float)Tex->height};
+      Rectangle source = {0,0, (float)Tex.width, (float)Tex.height};
       Rectangle dst = {Position.x, Position.y, CARD_WIDTH, CARD_HEIGHT};
-      Vector2 center = {(float)Tex->width / 2, (float)Tex->height / 2};
+      Vector2 center = {(float)Tex.width / 2, (float)Tex.height / 2};
       // DrawTextureV(*Tex,Position, WHITE);
-      DrawTexturePro(*Tex, source, dst, center, 90, WHITE);
+      DrawTexturePro(Tex, source, dst, center, 90, WHITE);
     }
 
     std::vector<Ref<Card>>& GetCards() { return Cards;}

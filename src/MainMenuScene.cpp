@@ -27,7 +27,7 @@ void MainMenu::Start(){
 Ref<Scene> MainMenu::Update(){
     Scene::Update();
     if(Clicked){
-      return ResourcesManager<Casino>::loadScene("Casino");
+      return ResourcesManager::loadScene<Casino>("Casino");
     }
     else
         return nullptr;

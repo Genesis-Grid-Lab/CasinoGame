@@ -23,7 +23,7 @@ Ref<Scene> Menu::Update(){
   if(Clicked){
     printf("Debug resume\n");
     Clicked = false;
-    return ResourcesManager<Casino>::loadScene("Casino");
+    return ResourcesManager::loadScene<Casino>("Casino");
   }
   return nullptr;
 }
