@@ -34,8 +34,9 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC
 # includes directories
 target_include_directories(${PROJECT_NAME} PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/Scenes
   ${CMAKE_CURRENT_SOURCE_DIR}/vendor/raylib/src
-  ${CMAKE_CURRENT_SOURCE_DIR}/include/Engine
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/Core
   ${CMAKE_CURRENT_SOURCE_DIR}/vendor/raygui/src
 )
 

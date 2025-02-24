@@ -6,7 +6,7 @@ class Object{
  public:
   virtual ~Object() = default;
 
-  virtual void Draw(){ printf("Drawing");}
+  virtual void Draw(){ }
 
   virtual void Update() {}
 

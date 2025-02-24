@@ -116,8 +116,6 @@ public:
 private:
 
   ResourcesManager(){}
-  std::list<Object *> Objects;
-  std::list<Scene *> Scenes;
 
   //The map of resources that have been loaded
   // std::unordered_map<std::string, std::weak_ptr<T>> resources;

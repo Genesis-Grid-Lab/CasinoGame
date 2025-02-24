@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Config.h"
+//
+#include <memory>
 
 class Scene {
 public:
@@ -8,7 +10,7 @@ public:
 
     virtual void Start() {}
 
-    virtual Ref<Scene> Update();
+    virtual std::shared_ptr<Scene> Update();
 
     virtual void Draw();
 
