@@ -13,6 +13,8 @@
 
 #define CARD_WIDTH 56
 #define CARD_HEIGHT 97
+#define SCREEN_WIDTH 387
+#define SCREEN_HEIGHT 688
 
 template<typename T>
 using Ref = std::shared_ptr<T>;

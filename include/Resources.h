@@ -13,41 +13,41 @@ public:
     ~ResourcesManager() {}
 
     // Load a resource
-    template <typename T>
-    static std::shared_ptr<T> load(const std::string &filename){
-        auto &resourcesManager = instance();
-        std::shared_ptr<T> resource;
+    // template <typename T>
+    // static std::shared_ptr<T> load(const std::string &filename){
+    //     auto &resourcesManager = instance();
+    //     std::shared_ptr<T> resource;
 
-        //Check if the rouces is already loaded
-        auto resIter = resourcesManager.resources.find(filename);
-        if(resIter != resourcesManager.resources.end()){
-            resource = resIter->second.lock();
-        }
+    //     //Check if the rouces is already loaded
+    //     auto resIter = resourcesManager.resources.find(filename);
+    //     if(resIter != resourcesManager.resources.end()){
+    //         resource = resIter->second.lock();
+    //     }
 
-        if(!resource){
-            //Load the resource from disk
-            resource = std::make_shared<T>(filename);
-            resourcesManager.resources[filename] = resource;
-        }
+    //     if(!resource){
+    //         //Load the resource from disk
+    //         resource = std::make_shared<T>(filename);
+    //         resourcesManager.resources[filename] = resource;
+    //     }
 
-        return resource;
-    }
+    //     return resource;
+    // }
 
     // Load a resource
     static Texture loadTexture(const std::string &filename){
         Texture resource;
 
         //Check if the rouces is already loaded
-        auto resIter = TextureTest.find(filename);
-        if(resIter != TextureTest.end()){
-            return resource = TextureTest[filename];
+        auto resIter = TextureResources.find(filename);
+        if(resIter != TextureResources.end()){
+            return resource = TextureResources[filename];
         }
 
         
             //Load the resource from disk
             resource = LoadTexture(filename.c_str());
-            TextureTest[filename] = resource;
-	    printf("%i texture\n", (int)TextureTest.size());
+            TextureResources[filename] = resource;
+	    printf("%i texture\n", (int)TextureResources.size());
         
         return resource;
     }
@@ -59,18 +59,18 @@ public:
     Ref<T> resource;
 
     // Check if the resources already loaded
-    auto resIter = SceneTest.find(name);
-    if(resIter != SceneTest.end()){
+    auto resIter = SceneResources.find(name);
+    if(resIter != SceneResources.end()){
       printf("Debug load scene\n"); 
-      resource = std::static_pointer_cast<T>(SceneTest[name]);
+      resource = std::static_pointer_cast<T>(SceneResources[name]);
     }
 
     if(!resource){
       printf("Debug create scene\n");
       // make a scene
       resource = CreateRef<T>();
-      SceneTest[name] = std::static_pointer_cast<Scene>(resource);
-      printf("%i scene\n", (int)SceneTest.size());
+      SceneResources[name] = std::static_pointer_cast<Scene>(resource);
+      printf("%i scene\n", (int)SceneResources.size());
     }
     return resource;
   }
@@ -81,18 +81,18 @@ public:
     Ref<T> resource;
 
     // Chech if the resources already loaded
-    auto resIter = ObjectTest.find(id);
-    if(resIter != ObjectTest.end()){
+    auto resIter = ObjectResources.find(id);
+    if(resIter != ObjectResources.end()){
       printf("Debug load object\n"); 
-      resource = std::static_pointer_cast<T>(ObjectTest[id]);
+      resource = std::static_pointer_cast<T>(ObjectResources[id]);
     }
 
     if(!resource){
       printf("Debug create object\n");
       //
       resource = CreateRef<T>();
-      ObjectTest[id] = std::static_pointer_cast<Object>(resource);
-      printf("%i object\n", (int)ObjectTest.size());
+      ObjectResources[id] = std::static_pointer_cast<Object>(resource);
+      printf("%i object\n", (int)ObjectResources.size());
 
     }
 
@@ -100,7 +100,7 @@ public:
   }
 
   static std::map<uint64_t, Ref<Object>>& GetObjects(){
-    return ObjectTest;
+    return ObjectResources;
   }
 
     //Gets the global resources manager instance
@@ -110,9 +110,9 @@ public:
     }
 
 public:
-  static std::map<uint64_t, Ref<Object>> ObjectTest;
-  static std::map<std::string, Ref<Scene>> SceneTest;
-  static std::map<std::string, Texture> TextureTest;
+  static std::map<uint64_t, Ref<Object>> ObjectResources;
+  static std::map<std::string, Ref<Scene>> SceneResources;
+  static std::map<std::string, Texture> TextureResources;
 private:
 
   ResourcesManager(){}
@@ -121,8 +121,8 @@ private:
 
   //The map of resources that have been loaded
   // std::unordered_map<std::string, std::weak_ptr<T>> resources;
-  std::unordered_map<std::string, Ref<Scene>> SceneResources;
-  std::unordered_map<uint64_t, Ref<Object>> ObjectResources;
+  // std::unordered_map<std::string, Ref<Scene>> SceneResources;
+  // std::unordered_map<uint64_t, Ref<Object>> ObjectResources;
 };
 
 //Instantiate static variables

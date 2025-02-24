@@ -3,21 +3,22 @@
 #include "Object.h"
 #include "Window.h"
 #include "Scene.h"
-#include "MainMenuScene.h"
 #include "Resources.h"
-#include "Casino.h"
+#include "TestScene.h"
 
 class Application {
  public:
   Application(){
-    if(!mWindow.Init(387, 688, "Casino")){
+    if(!mWindow.Init(SCREEN_WIDTH, SCREEN_HEIGHT, "Casino")){
       printf("Failed to init window!");
     }
+
+    // camera.target = Vector2{SCREEN_WIDTH/2, SCREEN_HEIGHT/2};
+    camera.zoom = 1.0f;
   }
 
   void Start(){
-    ResourcesManager::loadScene<Casino>("Casino");
-    currentScene = ResourcesManager::loadScene<MainMenu>("MainMenu");
+    currentScene = ResourcesManager::loadScene<TestScene>("MainMenu");
     currentScene->Start();
   }
 
@@ -35,6 +36,7 @@ class Application {
 
   void Render(){
     BeginDrawing();
+    BeginMode2D(camera);
     for(auto& object : ResourcesManager::GetObjects()){
       object.second->Draw();
     }
@@ -43,6 +45,7 @@ class Application {
       // it->second->Draw();      
     }
     currentScene->Draw();
+    EndMode2D();
     EndDrawing();
   }
 
@@ -60,5 +63,6 @@ class Application {
 
  private:
   Window mWindow;
+  Camera2D camera = {0};
   Ref<Scene> currentScene;
 };
